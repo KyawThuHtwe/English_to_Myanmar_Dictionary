@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="8dp">
+        <LinearLayout
+            android:id="@+id/layout"
+            android:background="@drawable/border_background"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+                <TextView
+                    android:id="@+id/work"
+                    android:textColor="@color/colorTextPrimary"
+                    android:text="@string/word"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+
+                <ImageView
+                    android:tint="@color/colorPrimary"
+                    android:id="@+id/speak1"
+                    android:src="@drawable/ic_volume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseAppTint"
+                    android:contentDescription="@string/app_name" />
+                <ImageView
+                    android:visibility="gone"
+                    android:tint="@color/colorPrimary"
+                    android:id="@+id/add1"
+                    android:src="@drawable/ic_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseAppTint"
+                    android:contentDescription="@string/app_name" />
+
+            </LinearLayout>
+            <LinearLayout
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <TextView
+                    android:id="@+id/def"
+                    android:textColor="@color/colorTextPrimary"
+                    android:text="@string/definition"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:visibility="gone"
+                    android:tint="@color/colorPrimary"
+                    android:id="@+id/speak2"
+                    android:src="@drawable/ic_volume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseAppTint"
+                    android:contentDescription="@string/app_name" />
+                <ImageView
+                    android:tint="@color/colorPrimary"
+                    android:id="@+id/add2"
+                    android:src="@drawable/ic_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="UseAppTint"
+                    android:contentDescription="@string/app_name" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

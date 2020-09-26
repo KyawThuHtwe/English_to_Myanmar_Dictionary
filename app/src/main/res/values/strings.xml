@@ -1,0 +1,42 @@
+<resources>
+    <string name="app_name">English to Myanmar Dictionary</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_word">New Word</string>
+    <string name="favorite">Favorite</string>
+    <string name="home">Home</string>
+    <string name="english">English</string>
+    <string name="myanmar">Myanmar</string>
+    <string name="name">Name</string>
+    <string name="state">State</string>
+    <string name="word">Word</string>
+    <string name="definition">Definition</string>
+    <string name="recent">Recent</string>
+    <string name="clear_all">Clear All</string>
+    <string name="english_to_myanmar">English to Myanmar</string>
+    <string name="myanmar_to_english">Myanmar to English</string>
+    <string name="about">About</string>
+    <string name="build_app_24_5_2020">Build App :24.5.2020</string>
+    <string name="version_1_0_0">Version : 1.0.0</string>
+    <string name="developed_by_kyaw_thu">Developed By Kyaw Thu</string>
+    <string name="email_copypaste673_gmail_com">Email : copypaste673@gmail.com</string>
+    <string name="phone_09750534996">Phone : 09750534996</string>
+    <string name="dictionary">Dictionary</string>
+    <string name="font">Font</string>
+    <string name="zawgyi">Zawgyi</string>
+    <string name="unicode">Unicode</string>
+    <string name="etom">EtoM</string>
+    <string name="thank">ေက်းဇူးတင္ပါသည္။</string>
+    <string name="ok">Ok</string>
+    <string name="add_to_favorite">Add to favorite</string>
+</resources>

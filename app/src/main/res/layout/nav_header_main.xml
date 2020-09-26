@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:background="@color/colorTextPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/nav_header_height"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:background="@drawable/round_background"
+            android:contentDescription="@string/app_name"
+            android:fontFamily="serif"
+            android:gravity="center"
+            android:text="@string/etom"
+            android:textColor="@color/colorTextPrimary"
+            android:textSize="25sp"
+            android:textStyle="italic" />
+
+
+        <TextView
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/nav_header_vertical_spacing"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    </LinearLayout>
+    <LinearLayout
+        android:background="@color/colorFont"
+        android:layout_gravity="center_vertical"
+        android:gravity="top"
+        android:padding="15dp"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:tint="@color/colorWhite"
+            android:paddingLeft="3dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="5dp"
+            android:src="@drawable/ic_font"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorTextPrimary"
+            tools:ignore="RtlHardcoded,UseAppTint"
+            android:contentDescription="@string/app_name" />
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:textColor="@color/colorWhite"
+            android:text="@string/font"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            tools:ignore="RtlHardcoded" />
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/zawgyi"
+                android:textSize="14sp"
+                android:text="@string/zawgyi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="5dp"/>
+            <RadioButton
+                android:textSize="14sp"
+                android:id="@+id/unicode"
+                android:text="@string/unicode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite" />
+
+        </RadioGroup>
+
+    </LinearLayout>
+
+</LinearLayout>
