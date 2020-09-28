@@ -9,4 +9,5 @@
     <color name="colorWhite">#ffff</color>
     <color name="colorRed">#ff0000</color>
     <color name="colorFont">#1D244A</color>
+    <color name="transparent">#37212121</color>
 </resources>

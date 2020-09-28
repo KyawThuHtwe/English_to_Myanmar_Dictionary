@@ -3,6 +3,7 @@ package com.cu.englishtomyanmardictionary.Fragments;
 import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -80,12 +81,19 @@ public class FavoriteFragment extends Fragment {
         });
 
     }
+    @SuppressLint("SetTextI18n")
     public void deleteTable(String s){
         try {
             DatabaseHelper helper = new DatabaseHelper(getContext());
             boolean res = helper.deleteParseAll(s);
             if (res) {
-                Toast.makeText(getContext(), "Clear", Toast.LENGTH_SHORT).show();
+                View view=LayoutInflater.from(getContext()).inflate(R.layout.clear_layout,null);
+                TextView textView=view.findViewById(R.id.clear);
+                textView.setText("Clear All");
+                Toast toast=Toast.makeText(getContext(),"Clear",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM,0,100);
+                toast.setView(view);
+                toast.show();
                 dataLoading();
             } else {
                 Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();

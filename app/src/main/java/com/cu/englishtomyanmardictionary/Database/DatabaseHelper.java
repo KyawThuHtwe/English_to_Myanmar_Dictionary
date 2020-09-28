@@ -1,10 +1,13 @@
 package com.cu.englishtomyanmardictionary.Database;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
@@ -16,12 +19,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
-    String DB_PATH=null;
+    String DB_PATH;
     private static final String DATABASE_NAME= "Dictionary.db";
     private static final int DATABASE_VERSION=1;
     private final Context myContext;
     private SQLiteDatabase myDatabase;
 
+    @SuppressLint("SdCardPath")
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.myContext=context;
@@ -30,34 +34,62 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void createDatabase() throws IOException{
-        boolean dbExist=checkDatabase();
-        if(dbExist){
+
+        /*
+        boolean dbExist = checkDataBase();
+        if (dbExist) {
             this.getWritableDatabase();
             this.close();
-        }else
-        {
+        }else {
             this.getReadableDatabase();
-            try{
+            try {
                 copyDataBase();
-            }catch (IOException e){
+            } catch (IOException e) {
                 throw new Error("Error copying database");
             }
         }
+
+         */
+        if(isExit()){
+            this.getWritableDatabase();
+            this.close();
+        }else {
+            this.getReadableDatabase();
+            try {
+                copyDataBase();
+            } catch (IOException e) {
+                throw new Error("Error copying database");
+            }
+            exit(true);
+        }
+
+    }
+    public void exit(Boolean result){
+        SharedPreferences sharedPreferences=myContext.getSharedPreferences("Database", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("Database",result).apply();
     }
 
-    private  boolean checkDatabase(){
-        SQLiteDatabase checkDB=null;
-        try{
-            String myPath=DB_PATH+DATABASE_NAME;
-            checkDB=SQLiteDatabase.openDatabase(myPath,null,SQLiteDatabase.OPEN_READONLY);
-        }catch (SQLException e){
+    public Boolean isExit(){
+        SharedPreferences sharedPreferences=myContext.getSharedPreferences("Database", Context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean("Database",false);
+    }
+/*
+    private boolean checkDataBase() throws IOException{
+        SQLiteDatabase checkDB = null;
+        try {
+            String myPath = DB_PATH + DATABASE_NAME;
+            checkDB = SQLiteDatabase.openDatabase(myPath, null, SQLiteDatabase.OPEN_READONLY);
+        } catch (SQLiteException e) {
 
         }
-        if(checkDB!=null){
+        if (checkDB != null) {
             checkDB.close();
         }
-        return checkDB != null ? true : false;
+        Log.e("db", String.valueOf(checkDB));
+        return checkDB != null;
     }
+ */
     private void copyDataBase() throws IOException {
         InputStream inputStream=myContext.getAssets().open(DATABASE_NAME);
         String outFileName=DB_PATH+DATABASE_NAME;
@@ -120,23 +152,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         long result=db.insert("Recent",null,contentValues);
         db.close();
 
-        if(result==-1){
-            return false;
-        }else {
-            return true;
-        }
+        return result != -1;
 
     }
 
     public Cursor getRecent(){
         SQLiteDatabase db=this.getWritableDatabase();
-        Cursor res=db.rawQuery("Select * from Recent",null);
-        return res;
+        return db.rawQuery("Select * from Recent",null);
     }
     public int deleteRecent(String id){
         SQLiteDatabase db=this.getWritableDatabase();
-        int res=db.delete("Recent","ID=?",new String[]{id});
-        return res;
+        return db.delete("Recent","ID=?",new String[]{id});
     }
 
     public boolean deleteRecentAll(String lan){

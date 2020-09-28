@@ -1,13 +1,12 @@
 package com.cu.englishtomyanmardictionary;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -26,7 +25,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity {
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,67 +48,43 @@ public class MainActivity extends AppCompatActivity {
                 textTitle.setText(destination.getLabel());
             }
         });
-        View view=navigationView.getHeaderView(0);
-        RadioGroup radioGroup=view.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                switch (checkedId){
-                    case R.id.zawgyi:
-                        Font(false);
-                        break;
-                    case R.id.unicode:
-                        Font(true);
-                        break;
-                }
-                refresh();
-            }
-        });
-        refresh();
-        if(isOnce()){
-            FontChoose();
-            Once(false);
-        }
-    }
-    public void refresh(){
-        Handler handler=new Handler();
-        handler.post(new Runnable() {
-            @SuppressLint("ResourceType")
-            @Override
-            public void run() {
-                NavigationView navigationView = findViewById(R.id.navigationView);
-                View view=navigationView.getHeaderView(0);
-                RadioButton zawgyi=view.findViewById(R.id.zawgyi);
-                RadioButton unicode=view.findViewById(R.id.unicode);
 
-                if(isFont()){
-                    unicode.setChecked(true);
-                }else {
-                    zawgyi.setChecked(true);
-                }
+        ImageView font=findViewById(R.id.font);
+        font.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FontChoose();
             }
         });
     }
+
     Boolean result=false;
     public void FontChoose(){
         View view=getLayoutInflater().inflate(R.layout.font_layout,null);
         final TextView title=view.findViewById(R.id.title);
         RadioGroup group=view.findViewById(R.id.radioGroup);
+        RadioButton zawgyi=view.findViewById(R.id.zawgyi);
+        RadioButton unicode=view.findViewById(R.id.unicode);
         group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId){
                     case R.id.zawgyi:
                         result=false;
-                        title.setText(getResources().getText(R.string.app_name));
+                        title.setText(getResources().getText(R.string.thank));
                         break;
                     case R.id.unicode:
                         result=true;
-                        title.setText(Rabbit.zg2uni(title.getText().toString()));
+                        title.setText(Rabbit.zg2uni((String) getResources().getText(R.string.thank)));
                         break;
                 }
             }
         });
+        if(isFont()){
+            unicode.setChecked(true);
+        }else {
+            zawgyi.setChecked(true);
+        }
         Button ok=view.findViewById(R.id.ok);
         android.app.AlertDialog.Builder builder=new android.app.AlertDialog.Builder(this);
         builder.setView(view);
@@ -120,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Font(result);
                 ad.dismiss();
-                refresh();
+
             }
         });
         ad.show();
@@ -134,17 +108,6 @@ public class MainActivity extends AppCompatActivity {
     public Boolean isFont(){
         SharedPreferences sharedPreferences=getSharedPreferences("Font", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("Convert",false);
-    }
-
-    public void Once(Boolean result){
-        SharedPreferences sharedPreferences=getSharedPreferences("FontChoose", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putBoolean("Once",result).apply();
-    }
-
-    public Boolean isOnce(){
-        SharedPreferences sharedPreferences=getSharedPreferences("FontChoose", Context.MODE_PRIVATE);
-        return sharedPreferences.getBoolean("Once",true);
     }
 
     @Override

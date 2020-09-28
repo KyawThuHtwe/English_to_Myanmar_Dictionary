@@ -1,53 +1,42 @@
 package com.cu.englishtomyanmardictionary.Fragments;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.widget.SearchView;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-
 import android.os.Handler;
 import android.speech.RecognizerIntent;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cu.englishtomyanmardictionary.Adapter.SearchListAdapter;
 import com.cu.englishtomyanmardictionary.Database.DatabaseHelper;
-import com.cu.englishtomyanmardictionary.MainActivity;
 import com.cu.englishtomyanmardictionary.Model.Data;
 import com.cu.englishtomyanmardictionary.R;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
 
 public class HomeFragment extends Fragment {
 
@@ -62,12 +51,12 @@ public class HomeFragment extends Fragment {
     SearchView searchView;
     ImageView speak,convert;
     private final int REQ_CODE = 100;
-    public static int REQUEST_PERMISSION=1;
     TextView lang1,lang2;
     LinearLayout recent_layout;
     ListView listviewRecent;
     TextView clear_all;
-    boolean first=false;
+    int c=0;
+    ProgressDialog progressDialog;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -77,6 +66,30 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         recent_layout=view.findViewById(R.id.recent_layout);
         listviewRecent=view.findViewById(R.id.listviewRecent);
+        //
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading..."); // Setting Message
+        progressDialog.setTitle(getResources().getString(R.string.app_name)); // Setting Title
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+        progressDialog.show(); // Display Progress Dialog
+        progressDialog.setCancelable(false);
+        final Handler handler=new Handler();
+        Runnable runnable=new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    c++;
+                    if (c == 2) {
+                        dataLoading();
+                    }
+                    handler.postDelayed(this,500);
+                } catch (Exception e) {
+                    Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        };
+        handler.post(runnable);
+
         listviewRecent.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -84,17 +97,35 @@ public class HomeFragment extends Fragment {
             }
         });
         listView = view.findViewById(R.id.listView);
-        permissions();
         Recent();
         clear_all=view.findViewById(R.id.clear_all);
         clear_all.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 DatabaseHelper helper=new DatabaseHelper(getContext());
                 if(getVerify()){
-                    helper.deleteRecentAll("eng");
+                    boolean res=helper.deleteRecentAll("eng");
+                    if(res){
+                        @SuppressLint("InflateParams") View view=LayoutInflater.from(getContext()).inflate(R.layout.clear_layout,null);
+                        TextView textView=view.findViewById(R.id.clear);
+                        textView.setText("Clear All");
+                        Toast toast=Toast.makeText(getContext(),"Clear",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.BOTTOM,0,100);
+                        toast.setView(view);
+                        toast.show();
+                    }
                 }else {
-                    helper.deleteRecentAll("myan");
+                    boolean res=helper.deleteRecentAll("myan");
+                    if(res){
+                        @SuppressLint("InflateParams") View view=LayoutInflater.from(getContext()).inflate(R.layout.clear_layout,null);
+                        TextView textView=view.findViewById(R.id.clear);
+                        textView.setText("Clear All");
+                        Toast toast=Toast.makeText(getContext(),"Clear",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.BOTTOM,0,100);
+                        toast.setView(view);
+                        toast.show();
+                    }
                 }
                 Recent();
             }
@@ -107,8 +138,6 @@ public class HomeFragment extends Fragment {
             }
         });
 
-        adapter = new SearchListAdapter(getContext(), dataList,1);
-        listView.setAdapter(null);
         searchView = view.findViewById(R.id.search);
         convert=view.findViewById(R.id.convertImage);
         lang1=view.findViewById(R.id.lang1);
@@ -296,7 +325,6 @@ public class HomeFragment extends Fragment {
     public void dataLoading() {
         try {
             DatabaseHelper helper = new DatabaseHelper(getContext());
-
             try {
                 helper.createDatabase();
             } catch (IOException e) {
@@ -319,47 +347,23 @@ public class HomeFragment extends Fragment {
             }
             Cursor cursor3 = helper.query("myen");
             if (cursor3 != null && cursor3.getCount() > 0) {
-                assert cursor3 != null;
                 while (cursor3.moveToNext()) {
                     dataList.add(new Data(cursor3.getString(0) + "", cursor3.getString(3) + "", cursor3.getString(2) + "", cursor3.getString(1) + "", cursor3.getString(4) + "", ""));
                 }
             }
-
             helper.close();
+            adapter = new SearchListAdapter(getContext(), dataList,1);
+            assert cursor1 != null;
+            assert cursor2 != null;
+            assert cursor3 != null;
+            int total_db=cursor1.getCount()+cursor2.getCount()+cursor3.getCount();
+            int total_list=dataList.size();
+           if(total_db==total_list){
+               progressDialog.dismiss();
+           }
         } catch (Exception e) {
             Toast.makeText(getContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void permissions() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)) {
-
-            } else {
-                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
-               // ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
-            }
-        } else if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-            } else {
-                ActivityCompat.requestPermissions(requireActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_PERMISSION);
-            }
-        } else {
-            dataLoading();
-        }
-    }
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NotNull String[] permissions, @NotNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if(requestCode==REQUEST_PERMISSION){
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED){
-                dataLoading();
-            }else {
-                Toast.makeText(getContext(),"Please allow the permission",Toast.LENGTH_SHORT).show();
-            }
-        }
-    }
 }

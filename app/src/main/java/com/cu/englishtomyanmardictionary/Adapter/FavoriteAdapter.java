@@ -3,7 +3,11 @@ package com.cu.englishtomyanmardictionary.Adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Drawable;
 import android.speech.tts.TextToSpeech;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 public class FavoriteAdapter extends ArrayAdapter<Data> {
     Context context;
@@ -74,8 +79,11 @@ public class FavoriteAdapter extends ArrayAdapter<Data> {
                     DatabaseHelper helper = new DatabaseHelper(context);
                     int res = helper.deleteParse(id);
                     if (res == 1) {
-                        Toast.makeText(getContext(), "Clear", Toast.LENGTH_SHORT).show();
-                    } else {
+                        View view=LayoutInflater.from(context).inflate(R.layout.clear_layout,null);
+                        Toast toast=Toast.makeText(context,"Clear",Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.BOTTOM,0,100);
+                        toast.setView(view);
+                        toast.show();                    } else {
                         Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
                     }
                     notifyDataSetChanged();
@@ -106,6 +114,11 @@ public class FavoriteAdapter extends ArrayAdapter<Data> {
             viewHolder.speak1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    View view=LayoutInflater.from(context).inflate(R.layout.speak_layout,null);
+                    Toast toast=Toast.makeText(context,"speak",Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM,0,100);
+                    toast.setView(view);
+                    toast.show();
                     textToSpeech.speak(dataArrayList.get(position).getWord(), TextToSpeech.QUEUE_FLUSH, null);
                 }
             });
@@ -132,10 +145,15 @@ public class FavoriteAdapter extends ArrayAdapter<Data> {
             viewHolder.speak2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    View view=LayoutInflater.from(context).inflate(R.layout.speak_layout,null);
+                    Toast toast=Toast.makeText(context,"speak",Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM,0,100);
+                    toast.setView(view);
+                    toast.show();
                     textToSpeech.speak(dataArrayList.get(position).getWord(), TextToSpeech.QUEUE_FLUSH, null);
-
                 }
             });
+
             viewHolder.speak1.setVisibility(View.GONE);
             viewHolder.speak2.setVisibility(View.VISIBLE);
             viewHolder.add1.setVisibility(View.VISIBLE);
@@ -160,7 +178,11 @@ public class FavoriteAdapter extends ArrayAdapter<Data> {
             DatabaseHelper helper = new DatabaseHelper(context);
             int res = helper.deleteParse(did);
             if (res == 1) {
-                Toast.makeText(getContext(), "Clear", Toast.LENGTH_SHORT).show();
+                View view=LayoutInflater.from(context).inflate(R.layout.clear_layout,null);
+                Toast toast=Toast.makeText(context,"Clear",Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.BOTTOM,0,100);
+                toast.setView(view);
+                toast.show();
             } else {
                 Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
             }

@@ -12,7 +12,11 @@
             android:icon="@drawable/ic_star"
             android:title="@string/favorite" />
         <item
-            android:id="@+id/newAdd"
+            android:id="@+id/database"
+            android:icon="@drawable/ic_database"
+            android:title="@string/database" />
+        <item
+            android:id="@+id/about"
             android:icon="@drawable/ic_info"
             android:title="@string/about" />
     </group>

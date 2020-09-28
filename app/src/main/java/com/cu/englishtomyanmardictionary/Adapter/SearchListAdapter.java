@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.speech.tts.TextToSpeech;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -80,7 +81,11 @@ public class SearchListAdapter extends ArrayAdapter<Data> {
                         DatabaseHelper helper = new DatabaseHelper(context);
                         int res = helper.deleteRecent(id);
                         if (res == 1) {
-                            Toast.makeText(getContext(), "Clear", Toast.LENGTH_SHORT).show();
+                            View view=LayoutInflater.from(context).inflate(R.layout.clear_layout,null);
+                            Toast toast=Toast.makeText(context,"Clear",Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.BOTTOM,0,100);
+                            toast.setView(view);
+                            toast.show();
                         } else {
                             Toast.makeText(getContext(), "Fail", Toast.LENGTH_SHORT).show();
                         }
@@ -114,6 +119,11 @@ public class SearchListAdapter extends ArrayAdapter<Data> {
             viewHolder.speak1.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    View view=LayoutInflater.from(context).inflate(R.layout.speak_layout,null);
+                    Toast toast=Toast.makeText(context,"speak",Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM,0,100);
+                    toast.setView(view);
+                    toast.show();
                     textToSpeech.speak(dataArrayList.get(position).getWord(), TextToSpeech.QUEUE_FLUSH, null);
                     if(res==1) {
                         insertRecent(dataArrayList.get(position).getWord() + "", dataArrayList.get(position).getState() + "", dataArrayList.get(position).getDef() + "","eng");
@@ -144,6 +154,11 @@ public class SearchListAdapter extends ArrayAdapter<Data> {
             viewHolder.speak2.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    View view=LayoutInflater.from(context).inflate(R.layout.speak_layout,null);
+                    Toast toast=Toast.makeText(context,"speak",Toast.LENGTH_SHORT);
+                    toast.setGravity(Gravity.BOTTOM,0,100);
+                    toast.setView(view);
+                    toast.show();
                     textToSpeech.speak(dataArrayList.get(position).getWord(), TextToSpeech.QUEUE_FLUSH, null);
                     if (res==1) {
                         insertRecent(dataArrayList.get(position).getDef() + "", dataArrayList.get(position).getState() + "", dataArrayList.get(position).getWord() + "","myan");
@@ -190,7 +205,12 @@ public class SearchListAdapter extends ArrayAdapter<Data> {
         DatabaseHelper helper=new DatabaseHelper(context);
         boolean res=helper.insertParse(word,state,def,lan);
         if(res){
-            Toast.makeText(getContext(),"Add to Favorite",Toast.LENGTH_SHORT).show();
+            View view=LayoutInflater.from(context).inflate(R.layout.favorite_layout,null);
+            Toast toast=Toast.makeText(context,"Add to Favorite",Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.BOTTOM,0,100);
+            toast.setView(view);
+            toast.show();
+
         }else {
             //Toast.makeText(getContext(),"Fail",Toast.LENGTH_SHORT).show();
         }

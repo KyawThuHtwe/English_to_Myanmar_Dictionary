@@ -16,7 +16,12 @@
         android:label="Favorite"
         tools:layout="@layout/fragment_favorite" />
     <fragment
-        android:id="@+id/newAdd"
+        android:id="@+id/database"
+        android:name="com.cu.englishtomyanmardictionary.Fragments.DataBaseFragment"
+        android:label="Database"
+        tools:layout="@layout/fragment_data_base" />
+    <fragment
+        android:id="@+id/about"
         android:name="com.cu.englishtomyanmardictionary.Fragments.NewFragment"
         android:label="About"
         tools:layout="@layout/fragment_new" />

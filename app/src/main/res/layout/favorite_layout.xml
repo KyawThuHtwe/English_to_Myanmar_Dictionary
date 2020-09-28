@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:padding="10dp"
+    android:background="@color/colorTextPrimary">
+
+    <ImageView
+        android:tint="@color/colorWhite"
+        android:src="@drawable/ic_star"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="UseAppTint" />
+    <TextView
+        android:layout_marginLeft="5dp"
+        android:textSize="16sp"
+        android:textColor="@color/colorWhite"
+        android:text="@string/add_to_favorite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:ignore="RtlHardcoded" />
+</LinearLayout>

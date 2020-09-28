@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.DataBaseFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/default_database">
+        <ImageView
+            android:id="@+id/analyze"
+            android:padding="120dp"
+            android:src="@drawable/ic_cached"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:tint="@color/transparent" />
+        <TextView
+            android:background="@color/transparent"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textColor="@color/colorTextPrimary"
+            android:padding="20dp"
+            android:layout_gravity="bottom|center_horizontal"
+            android:text="@string/long_press_default_database"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</FrameLayout>
